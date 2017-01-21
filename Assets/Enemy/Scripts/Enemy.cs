@@ -15,6 +15,9 @@ namespace Enemy {
         private NavMeshAgent agent;
         private Rigidbody rigid;
 
+		//Coins
+		public GameObject coin;
+
         //Animations
         private int attackHash;
         private int deadkHash;
@@ -78,6 +81,7 @@ namespace Enemy {
         private void Death() {
             foreach (var anm in animLst) { anm.SetTrigger(deadkHash); }
             agent.Stop();
+			Instantiate (coin, gameObject.transform.position, Quaternion.Euler(90,0,0));
             Destroy(gameObject, 5);
         }
 
