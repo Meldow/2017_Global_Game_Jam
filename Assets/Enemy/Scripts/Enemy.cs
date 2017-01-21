@@ -91,7 +91,10 @@ namespace Enemy {
 
         private void Attack() {
             canAttack = false;
-            foreach (var anm in animLst) { anm.SetTrigger(attackHash); }
+			goal.GetComponent<Health> ().damagePlayer();
+            foreach (var anm in animLst) { 
+				anm.SetTrigger(attackHash);
+			}
         }
         IEnumerator AttackCooldown() {
             yield return new WaitForSeconds(attackCooldown);
