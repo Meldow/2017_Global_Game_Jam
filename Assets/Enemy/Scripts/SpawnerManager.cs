@@ -15,7 +15,6 @@ namespace Spawner {
 
         public float startWait;
         public float spawnWait;
-        public float waveWait;
 
         private int level = 0;
 
@@ -30,16 +29,88 @@ namespace Spawner {
             yield return new WaitForSeconds(startWait);
             while (true) {
                 level++;
-                Debug.Log(level);
-                for (int i = 0; i < Random.Range(level, level + 3); i++) {
-                    spawnRandomColor();
-					if (level > 10 && (Random.Range(0, 5) == 0)) {
-						spawnEnemiesWithColorAndNumber(parserEnemyColors(Random.Range(1, 3)), Random.Range(2,4));
-                    }
-                }
+				switch (level) {
+				case 1:
+					spawnRedEnemy ();
+					spawnRedEnemy ();
+					spawnRedEnemy ();
+					break;
+				case 2:
+					spawnRedEnemy ();
+					spawnRedEnemy ();
+					spawnGreenEnemy ();
+					break;
+				case 3:
+					spawnGreenEnemy ();
+					spawnGreenEnemy ();
+					spawnRedEnemy ();
+					break;
+				case 4:
+					spawnYellowEnemy ();
+					spawnYellowEnemy ();
+					spawnRedEnemy ();
+					spawnRedEnemy ();
+					break;
+				case 5:
+					spawnBlueEnemy ();
+					spawnGreenEnemy ();
+					spawnYellowEnemy ();
+					spawnBlueEnemy ();
+					break;
+				case 6:
+					spawnGreenEnemy ();
+					spawnGreenEnemy ();
+					spawnBlueEnemy ();
+					spawnBlueEnemy ();
+					spawnRedEnemy ();
+					spawnRedEnemy ();
+					break;
+				case 7:
+					spawnGreenEnemy ();
+					spawnGreenEnemy ();
+					spawnRedEnemy ();
+					spawnRedEnemy ();
+					spawnYellowEnemy ();
+					spawnYellowEnemy ();
+					spawnYellowEnemy ();
+					break;
+				case 8:
+					spawnGreenEnemy ();
+					spawnBlueEnemy ();
+					spawnRedEnemy ();
+					spawnRedEnemy ();
+					spawnRedEnemy ();
+					spawnRedEnemy ();
+					break;
+				case 9:
+					spawnGreenEnemy ();
+					spawnGreenEnemy ();
+					spawnGreenEnemy ();
+					spawnBlueEnemy ();
+					spawnBlueEnemy ();
+					spawnYellowEnemy ();
+					break;
+				case 10:
+					spawnGreenEnemy ();
+					spawnBlueEnemy ();
+					spawnYellowEnemy ();
+					spawnRedEnemy ();
+					spawnRedEnemy ();
+					break;
+				default:
+					for (int i = 0; i < Random.Range(level-4, level); i++) {
+						spawnRandomColor();
+						/*if (level > 10 && (Random.Range(0, 5) == 0)) {
+							spawnEnemiesWithColorAndNumber(parserEnemyColors(Random.Range(1, 3)), Random.Range(2,4));
+						}
+						*/
+					}
+					break;
+
+				}
+
                 yield return new WaitForSeconds(spawnWait);
             }
-            yield return new WaitForSeconds(waveWait);
         }
 
         private ENEMY_COLORS parserEnemyColors(int code) {

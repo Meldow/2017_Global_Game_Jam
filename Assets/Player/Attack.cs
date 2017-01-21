@@ -98,7 +98,6 @@ namespace Player {
 				coinCollector++;
 				Destroy (obj);
 			}
-			Debug.Log (coinCollector);
 		}
 
         private void Fire() {
