@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Player;
 using UnityEngine.AI;
 using UnityEngine;
@@ -9,7 +11,7 @@ namespace Enemy {
     [RequireComponent(typeof(Rigidbody))]
     public class Enemy : MonoBehaviour {
         //References
-        private Animator anim;
+        private List<Animator> animLst;
         private NavMeshAgent agent;
         private Rigidbody rigid;
 
@@ -45,7 +47,7 @@ namespace Enemy {
 
         void Awake() {
             agent = GetComponent<NavMeshAgent>();
-            anim = GetComponentInChildren<Animator>();
+            animLst = GetComponentsInChildren<Animator>().ToList();
             rigid = GetComponentInChildren<Rigidbody>();
             goal = GameObject.FindWithTag("Player");
         }
@@ -74,7 +76,7 @@ namespace Enemy {
         }
 
         private void Death() {
-            anim.SetTrigger(deadkHash);
+            foreach (var anm in animLst) { anm.SetTrigger(deadkHash); }
             agent.Stop();
             Destroy(gameObject, 5);
         }
@@ -85,8 +87,7 @@ namespace Enemy {
 
         private void Attack() {
             canAttack = false;
-            anim.SetTrigger(attackHash);
-            Debug.Log("attacked");
+            foreach (var anm in animLst) { anm.SetTrigger(attackHash); }
         }
         IEnumerator AttackCooldown() {
             yield return new WaitForSeconds(attackCooldown);
