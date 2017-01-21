@@ -12,11 +12,13 @@ namespace Enemy {
     public class Enemy : MonoBehaviour {
         //References
         private List<Animator> animLst;
+        [SerializeField]
+        private List<ParticleSystem> onHitParticleLst;
         private NavMeshAgent agent;
         private Rigidbody rigid;
 
-		//Coins
-		public GameObject coin;
+        //Coins
+        public GameObject coin;
 
         //Animations
         private int attackHash;
@@ -75,13 +77,14 @@ namespace Enemy {
                 var backward = transform.forward * -1;
                 rigid.AddForce(backward * attackEnemy.power, ForceMode.Impulse);
                 HP -= attackEnemy.damage;
+                foreach (var blood in onHitParticleLst) { blood.Play(); }
             }
         }
 
         private void Death() {
             foreach (var anm in animLst) { anm.SetTrigger(deadkHash); }
             agent.Stop();
-			Instantiate (coin, gameObject.transform.position, Quaternion.Euler(90,0,0));
+            Instantiate(coin, gameObject.transform.position, Quaternion.Euler(90, 0, 0));
             Destroy(gameObject, 5);
         }
 
