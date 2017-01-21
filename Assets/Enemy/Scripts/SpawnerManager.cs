@@ -33,8 +33,8 @@ namespace Spawner {
                 Debug.Log(level);
                 for (int i = 0; i < Random.Range(level, level + 3); i++) {
                     spawnRandomColor();
-                    if (level > 5 && Random.Range(0, 4) == 0) {
-                        spawnEnemiesWithColorAndNumber(parserEnemyColors(Random.Range(0, 4)), level);
+					if (level > 10 && (Random.Range(0, 5) == 0)) {
+                        spawnEnemiesWithColorAndNumber(parserEnemyColors(Random.Range(1, 3)), level);
                     }
                 }
                 yield return new WaitForSeconds(spawnWait);

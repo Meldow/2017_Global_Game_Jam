@@ -27,7 +27,7 @@ namespace Player {
     [RequireComponent(typeof(SpriteRenderer))]
     public class Attack : MonoBehaviour {
         private SpriteRenderer spriteRenderer;
-
+		private int coinCollector = 0;
         //Weapons
         public WeaponType RedWeaponType = new WeaponType() { AttackType = AttackType.Red };
         public WeaponType BlueWeaponType = new WeaponType() { AttackType = AttackType.Blue };
@@ -81,14 +81,25 @@ namespace Player {
                 case GravityInfo.LandscapeRight:
                     SelectedWeaponType = BlueWeaponType;
                     break;
-                case GravityInfo.FaceUp:
+				case GravityInfo.FaceUp:
+					collectCoins ();
                     break;
                 case GravityInfo.FaceDown:
+					collectCoins ();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("gravityInfo", gravityInfo, null);
             }
         }
+
+		private void collectCoins(){
+			GameObject[] coinList = GameObject.FindGameObjectsWithTag ("Coin");
+			foreach (GameObject obj in coinList){
+				coinCollector++;
+				Destroy (obj);
+			}
+			Debug.Log (coinCollector);
+		}
 
         private void Fire() {
             isCharging = false;
