@@ -10,12 +10,57 @@ namespace Spawner{
 		public GameObject greenEnemy;
 		public GameObject blueEnemy;
 		public GameObject yellowEnemy;
-		public enum ENEMY_COLORS {RED,GREEN,BLUE,YELLOW}; 
+		public enum ENEMY_COLORS {RED=0,GREEN=1,BLUE=2,YELLOW=3}; 
+
+		public float startWait;
+		public float spawnWait;
+		public float waveWait;
+
+		private int level = 0;
+
 		// Use this for initialization
 		void Start () {
 			if(spawnPoints==null)
 				spawnPoints = GameObject.FindGameObjectsWithTag ("Spawn");
+			StartCoroutine (SpawnWave ());
 		}
+
+		IEnumerator SpawnWave (){
+			yield return new WaitForSeconds (startWait);
+			while (true) {
+				level ++;
+				Debug.Log (level);
+				for (int i = 0; i < Random.Range (level, level + 3); i++) {
+					spawnRandomColor ();
+					if (level > 5 && Random.Range(0,4) == 0) {
+						spawnEnemiesWithColorAndNumber (parserEnemyColors(Random.Range(0,4)),level);
+					}
+				}
+				yield return new WaitForSeconds (spawnWait);
+			}
+			yield return new WaitForSeconds (waveWait);
+		}
+
+		private ENEMY_COLORS parserEnemyColors(int code){
+			switch (code) {
+			case 0:
+				return ENEMY_COLORS.RED;
+			case 1:
+				return ENEMY_COLORS.GREEN;
+			case 2:
+				return ENEMY_COLORS.BLUE;
+			case 3:
+				return ENEMY_COLORS.YELLOW;
+			}
+
+			return ENEMY_COLORS.BLUE;
+
+		}
+
+
+
+
+
 
 		public void spawnRedEnemy(){
 			GameObject spawnPoint = spawnPoints[(Random.Range(0,spawnPoints.Length))];
@@ -57,9 +102,9 @@ namespace Spawner{
 		}
 
 		public void spawnEnemiesWithColorAndNumber(ENEMY_COLORS color, int numberOfEnemies){
+			GameObject spawnPoint = spawnPoints[(Random.Range(0,spawnPoints.Length))];
 			switch (color) {
 			case ENEMY_COLORS.BLUE:
-				GameObject spawnPoint = spawnPoints[(Random.Range(0,spawnPoints.Length))];
 				for (int i = 0; i < numberOfEnemies; i++) {
 					Vector3 newPosition = new Vector3(spawnPoint.transform.position.x + (i*2),spawnPoint.transform.position.y,spawnPoint.transform.position.z);
 					Instantiate (blueEnemy, newPosition, Quaternion.Euler(90,0,0));
@@ -67,18 +112,21 @@ namespace Spawner{
 				break;
 			case ENEMY_COLORS.GREEN:
 				for (int i = 0; i < numberOfEnemies; i++) {
-					spawnGreenEnemy ();
+					Vector3 newPosition = new Vector3(spawnPoint.transform.position.x + (i*2),spawnPoint.transform.position.y,spawnPoint.transform.position.z);
+					Instantiate (greenEnemy, newPosition, Quaternion.Euler(90,0,0));
 				}
 				break;
 
 			case ENEMY_COLORS.RED:
 				for (int i = 0; i < numberOfEnemies; i++) {
-					spawnRedEnemy ();
+					Vector3 newPosition = new Vector3(spawnPoint.transform.position.x + (i*2),spawnPoint.transform.position.y,spawnPoint.transform.position.z);
+					Instantiate (redEnemy, newPosition, Quaternion.Euler(90,0,0));
 				}
 				break;
 			case ENEMY_COLORS.YELLOW:
 				for (int i = 0; i < numberOfEnemies; i++) {
-					spawnYellowEnemy ();
+					Vector3 newPosition = new Vector3(spawnPoint.transform.position.x + (i*2),spawnPoint.transform.position.y,spawnPoint.transform.position.z);
+					Instantiate (yellowEnemy, newPosition, Quaternion.Euler(90,0,0));
 				}
 				break;
 			}
