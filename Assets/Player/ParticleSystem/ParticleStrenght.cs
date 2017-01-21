@@ -25,14 +25,14 @@ namespace Player {
                     foreach (var cloud in cloudLst) {
                         var dmpn = cloud.limitVelocityOverLifetime;
                         dmpn.dampen = 0.2f;
-                        StartCoroutine(ExpandCollider(2.0f));
+                        //StartCoroutine(ExpandCollider(2.0f));
                     }
                     break;
                 case AttackStrength.Normal:
                     foreach (var cloud in cloudLst) {
                         var dmpn = cloud.limitVelocityOverLifetime;
                         dmpn.dampen = 0.1f;
-                        StartCoroutine(ExpandCollider(4.0f));
+                        //StartCoroutine(ExpandCollider(4.0f));
                     }
                     break;
                 case AttackStrength.Strong:

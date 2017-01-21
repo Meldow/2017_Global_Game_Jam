@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using Enemy;
 
 namespace Enemy {
     [CustomEditor(typeof(LifeColor))]
@@ -12,7 +10,7 @@ namespace Enemy {
             var script = (LifeColor)target;
 
             GUILayout.BeginHorizontal();
-            if(GUILayout.Button("Set Red")) {
+            if (GUILayout.Button("Set Red")) {
                 script.Color = Color.red;
             }
             GUILayout.EndHorizontal();
@@ -36,3 +34,4 @@ namespace Enemy {
         }
     }
 }
+#endif

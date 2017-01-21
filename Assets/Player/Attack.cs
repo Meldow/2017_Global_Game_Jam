@@ -12,7 +12,7 @@ namespace Player {
     [Serializable]
     public class WeaponType {
         public GameObject prefab;
-        public Material material;
+        public Sprite sprite;
         public ParticleSystem ParticleSystem;
         public AttackType AttackType;
         public Image ChargeBarImage;
@@ -26,7 +26,7 @@ namespace Player {
         public WeaponType RedWeaponType = new WeaponType() { AttackType = AttackType.Red };
         public WeaponType BlueWeaponType = new WeaponType() { AttackType = AttackType.Blue };
         public WeaponType GreenWeaponType = new WeaponType() { AttackType = AttackType.Green };
-        public WeaponType YelloWeaponType = new WeaponType() { AttackType = AttackType.Yellow };
+        public WeaponType YellowWeaponType = new WeaponType() { AttackType = AttackType.Yellow };
 
         [SerializeField]
         private WeaponType selectedWeaponType;
@@ -36,7 +36,7 @@ namespace Player {
             }
             set {
                 selectedWeaponType = value;
-                spriteRenderer.material = selectedWeaponType.material;
+                spriteRenderer.sprite = selectedWeaponType.sprite;
                 selectedWeaponType.ChargeBarImage.fillAmount = 0;
             }
         }
@@ -65,7 +65,7 @@ namespace Player {
         private void SelectedNewWeapon(GravityInfo gravityInfo) {
             switch (gravityInfo) {
                 case GravityInfo.Portrait:
-                    SelectedWeaponType = YelloWeaponType;
+                    SelectedWeaponType = YellowWeaponType;
                     break;
                 case GravityInfo.PortraitUpsideDown:
                     SelectedWeaponType = GreenWeaponType;
