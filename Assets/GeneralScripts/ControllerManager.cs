@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Net;
 
-namespace GameLogic {
+namespace Util {
     public enum ControlInfo {
         Dash, MouseMoved, Fire, FireAlt, FireReleased, SwapWeapon
     }
