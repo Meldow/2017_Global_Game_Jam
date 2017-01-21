@@ -58,11 +58,6 @@ namespace Spawner {
 
         }
 
-
-
-
-
-
         public void spawnRedEnemy() {
             GameObject spawnPoint = spawnPoints[(Random.Range(0, spawnPoints.Length))];
             Instantiate(redEnemy, spawnPoint.transform.position, Quaternion.Euler(90, 0, 0));
