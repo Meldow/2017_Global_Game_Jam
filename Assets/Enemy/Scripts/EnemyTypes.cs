@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-namespace Enemy {
+﻿namespace Enemy {
     public enum EnemyTypes {
         Green,
         Red,
