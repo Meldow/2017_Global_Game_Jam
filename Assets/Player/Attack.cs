@@ -51,7 +51,7 @@ namespace Player {
 
         [SerializeField]
         private Text CoinCollectedText;
-        private int coinCollector;
+        public int coinCollector;
         public int CoinCollector {
             get {
                 return coinCollector;
@@ -150,7 +150,6 @@ namespace Player {
             //Sets the strenght of the particle system
             var strength = ComputeAttackStrength();
             ps.GetComponent<ParticleStrenght>().SetStrength(strength);
-            //ps.GetComponent<SphereCollider>().radius = 10; //TODO
             ps.GetComponent<Projectile>().attackEnemy = ComputeAttackEnemy(strength);
         }
 

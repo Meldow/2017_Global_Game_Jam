@@ -43,7 +43,6 @@ namespace Player {
             var collider = GetComponent<SphereCollider>();
             var currentRadius = 0;
             var t = 0.0f;
-            Debug.Log("CORROUTINE :: TARGET :: " + targetRadius);
             while (collider.radius <= targetRadius) {
                 //Debug.Log(Mathf.Lerp(0, targetRadius, t));
                 collider.radius += Time.deltaTime * speed;

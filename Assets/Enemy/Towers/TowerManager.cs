@@ -1,4 +1,5 @@
-﻿using Player;
+﻿using System;
+using Player;
 using UnityEngine;
 using Util;
 
@@ -10,24 +11,31 @@ namespace Enemy {
         private GameObject RedTowerSpawnpoint;
         [SerializeField]
         private GameObject RedTower;
+        public bool canSpawnRed = true;
+
         [SerializeField]
         private GameObject BlueTowerIcon;
         [SerializeField]
         private GameObject BlueTowerSpawnpoint;
         [SerializeField]
         private GameObject BlueTower;
+        public bool canSpawnBlue = true;
+
         [SerializeField]
         private GameObject YellowTowerIcon;
         [SerializeField]
         private GameObject YellowTowerSpawnpoint;
         [SerializeField]
         private GameObject YellowTower;
+        public bool canSpawnYellow = true;
+
         [SerializeField]
         private GameObject GreenTowerIcon;
         [SerializeField]
         private GameObject GreenTowerSpawnpoint;
         [SerializeField]
         private GameObject GreenTower;
+        public bool canSpawnGreen = true;
 
         public void SpawnRedTower() {
             var tower = Instantiate(RedTower);
@@ -54,10 +62,10 @@ namespace Enemy {
         }
 
         public void EnableIcons() {
-            RedTowerIcon.SetActive(true);
-            GreenTowerIcon.SetActive(true);
-            BlueTowerIcon.SetActive(true);
-            YellowTowerIcon.SetActive(true);
+            if (canSpawnRed) RedTowerIcon.SetActive(true);
+            if (canSpawnGreen) GreenTowerIcon.SetActive(true);
+            if (canSpawnBlue) BlueTowerIcon.SetActive(true);
+            if (canSpawnYellow) YellowTowerIcon.SetActive(true);
         }
 
         public void DisableIcons() {
@@ -67,5 +75,27 @@ namespace Enemy {
             YellowTowerIcon.SetActive(false);
         }
 
+        public void ToggleIcon(AttackType attackType, bool state) {
+            switch (attackType) {
+                case AttackType.Red:
+                    RedTowerIcon.SetActive(state);
+                    canSpawnRed = state;
+                    break;
+                case AttackType.Blue:
+                    BlueTowerIcon.SetActive(state);
+                    canSpawnBlue = state;
+                    break;
+                case AttackType.Green:
+                    GreenTowerIcon.SetActive(state);
+                    canSpawnGreen = state;
+                    break;
+                case AttackType.Yellow:
+                    YellowTowerIcon.SetActive(state);
+                    canSpawnYellow = state;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("attackType", attackType, null);
+            }
+        }
     }
 }
