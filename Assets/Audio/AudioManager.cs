@@ -6,6 +6,7 @@ public class AudioManager : MonoBehaviour {
 
 	public AudioClip coin_effect;
 	public AudioClip death_effect;
+	public AudioClip hitEffect;
 
 	private AudioSource source;
 
@@ -27,5 +28,8 @@ public class AudioManager : MonoBehaviour {
 
 	public void PlayDeathEffectEnemy (){
 		source.PlayOneShot(death_effect, 6.0f);
+	}
+	public void PlayHitEffectEnemy (){
+		source.PlayOneShot(hitEffect, 6.0f);
 	}
 }

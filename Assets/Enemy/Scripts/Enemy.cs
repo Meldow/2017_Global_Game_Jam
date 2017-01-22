@@ -92,6 +92,7 @@ namespace Enemy {
 
         public void ReceiveDamage(AttackEnemy attackEnemy) {
             if (CanReceiveAttack(attackEnemy.attackType)) {
+				audioM.PlayHitEffectEnemy ();
                 var backward = transform.forward * -1;
                 rigid.AddForce(backward * attackEnemy.power, ForceMode.Impulse);
                 HP -= attackEnemy.damage;
