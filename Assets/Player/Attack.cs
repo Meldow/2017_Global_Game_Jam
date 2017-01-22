@@ -34,6 +34,8 @@ namespace Player {
         public WeaponType GreenWeaponType = new WeaponType() { AttackType = AttackType.Green };
         public WeaponType YellowWeaponType = new WeaponType() { AttackType = AttackType.Yellow };
 
+		private int playerScore = 0;
+
         [SerializeField]
         private WeaponType selectedWeaponType;
         public WeaponType SelectedWeaponType {
@@ -111,6 +113,9 @@ namespace Player {
                 Destroy(obj);
             }
         }
+
+		public int getPlayerScore(){ return playerScore; }
+		public void increaseScore(){ playerScore++; }
 
         private void Fire() {
             isCharging = false;

@@ -5,6 +5,7 @@ using System.Linq;
 using Player;
 using UnityEngine.AI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Enemy {
     [RequireComponent(typeof(NavMeshAgent))]
@@ -21,6 +22,11 @@ namespace Enemy {
 
         //Coins
         public GameObject coin;
+
+		private GameObject ui;
+		private Text scoreText;
+		private	Attack attackScript;
+
 
         //Animations
         private int attackHash;
@@ -57,6 +63,9 @@ namespace Enemy {
             animLst = GetComponentsInChildren<Animator>().ToList();
             rigid = GetComponentInChildren<Rigidbody>();
             goal = GameObject.FindWithTag("Player");
+			ui = GameObject.Find ("UI");
+			scoreText = ui.GetComponentInChildren<Text>();
+			attackScript = goal.GetComponent<Attack>();
         }
 
         void Start() {
@@ -90,8 +99,16 @@ namespace Enemy {
             Instantiate(coin, gameObject.transform.position, Quaternion.Euler(90, 0, 0));
             var part = Instantiate(onDeathParticle, transform);
             part.transform.position = transform.position;
+			UpdateCoinUI ();
             Destroy(gameObject, 5);
         }
+
+		private void UpdateCoinUI(){
+			if (scoreText != null) {
+				attackScript.increaseScore ();
+				scoreText.text = attackScript.getPlayerScore ()+"";
+			}
+		}
 
         private bool CheckRange() {
             return Vector3.Distance(goal.transform.position, this.transform.position) < attackRange;
