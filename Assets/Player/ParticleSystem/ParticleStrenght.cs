@@ -20,7 +20,7 @@ namespace Player {
                     break;
                 case AttackStrength.Weak:
                     size.startSize = 8;
-                    StartCoroutine(ExpandCollider(8.5f, 0.85f));
+                    StartCoroutine(ExpandCollider(7.5f, 0.85f));
                     break;
                 case AttackStrength.Normal:
                     size.startSize = 13;
