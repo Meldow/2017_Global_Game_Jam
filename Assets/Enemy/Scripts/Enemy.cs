@@ -74,7 +74,8 @@ namespace Enemy {
             deadkHash = Animator.StringToHash("dead");
             agent.destination = goal.transform.position;
             agent.stoppingDistance = attackRange;
-            hp = 1;
+            hp = 3;
+			transform.localScale += new Vector3 (0.3f, 0.0f, 0.3f);
         }
 
         void Update() {
@@ -91,8 +92,19 @@ namespace Enemy {
                 HP -= attackEnemy.damage;
                 var part = Instantiate(onHitParticle);
                 part.transform.position = transform.position;
+				transform.localScale -= new Vector3 (0.1f, 0.0f, 0.1f);
+				Collider col = GetComponent<Collider> ();
+				col.enabled = false;
+				StartCoroutine (WaitForInvulnerability());
             }
         }
+
+		IEnumerator WaitForInvulnerability() {
+			yield return new WaitForSeconds(2);
+			Collider col = GetComponent<Collider> ();
+			col.enabled = true;
+		}
+
 
         private void Death() {
             foreach (var anm in animLst) { anm.SetTrigger(deadkHash); }
