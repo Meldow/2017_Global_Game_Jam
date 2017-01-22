@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Enemy;
 using UnityEngine;
 using UnityEngine.UI;
 using Util;
@@ -25,16 +26,15 @@ namespace Player {
     }
 
     [RequireComponent(typeof(SpriteRenderer))]
-    public class Attack : MonoBehaviour {
+    public class Attack : Singleton<Attack> {
         private SpriteRenderer spriteRenderer;
-        private int coinCollector = 0;
         //Weapons
         public WeaponType RedWeaponType = new WeaponType() { AttackType = AttackType.Red };
         public WeaponType BlueWeaponType = new WeaponType() { AttackType = AttackType.Blue };
         public WeaponType GreenWeaponType = new WeaponType() { AttackType = AttackType.Green };
         public WeaponType YellowWeaponType = new WeaponType() { AttackType = AttackType.Yellow };
 
-		private int playerScore = 0;
+        private int playerScore = 0;
 
         [SerializeField]
         private WeaponType selectedWeaponType;
@@ -48,6 +48,24 @@ namespace Player {
                 //selectedWeaponType.ChargeBarImage.fillAmount = 0;
             }
         }
+
+        [SerializeField]
+        private Text CoinCollectedText;
+        private int coinCollector;
+        public int CoinCollector {
+            get {
+                return coinCollector;
+            }
+            set {
+                coinCollector = value;
+                CoinCollectedText.text = CoinCollector.ToString();
+                if (CoinCollector >= TowerCost)
+                    TowerManager.Instance.EnableIcons();
+                else
+                    TowerManager.Instance.DisableIcons();
+            }
+        }
+        public int TowerCost;
 
         //Input
         [SerializeField]
@@ -109,13 +127,13 @@ namespace Player {
         private void collectCoins() {
             GameObject[] coinList = GameObject.FindGameObjectsWithTag("Coin");
             foreach (GameObject obj in coinList) {
-                coinCollector++;
+                CoinCollector++;
                 Destroy(obj);
             }
         }
 
-		public int getPlayerScore(){ return playerScore; }
-		public void increaseScore(){ playerScore++; }
+        public int getPlayerScore() { return playerScore; }
+        public void increaseScore() { playerScore++; }
 
         private void Fire() {
             isCharging = false;
@@ -187,6 +205,5 @@ namespace Player {
                     throw new ArgumentOutOfRangeException("attackStrength", attackStrength, null);
             }
         }
-
     }
 }
