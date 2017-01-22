@@ -13,7 +13,9 @@ namespace Enemy {
         //References
         private List<Animator> animLst;
         [SerializeField]
-        private List<ParticleSystem> onHitParticleLst;
+        private ParticleSystem onHitParticle;
+        [SerializeField]
+        private ParticleSystem onDeathParticle;
         private NavMeshAgent agent;
         private Rigidbody rigid;
 
@@ -77,7 +79,8 @@ namespace Enemy {
                 var backward = transform.forward * -1;
                 rigid.AddForce(backward * attackEnemy.power, ForceMode.Impulse);
                 HP -= attackEnemy.damage;
-                foreach (var blood in onHitParticleLst) { blood.Play(); }
+                var part = Instantiate(onHitParticle);
+                part.transform.position = transform.position;
             }
         }
 
@@ -85,6 +88,8 @@ namespace Enemy {
             foreach (var anm in animLst) { anm.SetTrigger(deadkHash); }
             agent.Stop();
             Instantiate(coin, gameObject.transform.position, Quaternion.Euler(90, 0, 0));
+            var part = Instantiate(onDeathParticle, transform);
+            part.transform.position = transform.position;
             Destroy(gameObject, 5);
         }
 
@@ -94,10 +99,10 @@ namespace Enemy {
 
         private void Attack() {
             canAttack = false;
-			goal.GetComponent<Health> ().damagePlayer();
-            foreach (var anm in animLst) { 
-				anm.SetTrigger(attackHash);
-			}
+            goal.GetComponent<Health>().damagePlayer();
+            foreach (var anm in animLst) {
+                anm.SetTrigger(attackHash);
+            }
         }
         IEnumerator AttackCooldown() {
             yield return new WaitForSeconds(attackCooldown);
