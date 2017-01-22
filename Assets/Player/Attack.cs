@@ -47,7 +47,6 @@ namespace Player {
             }
         }
 
-
         //Input
         [SerializeField]
         private float chargeSpeed;
