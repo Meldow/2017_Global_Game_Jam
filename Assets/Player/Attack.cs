@@ -150,7 +150,7 @@ namespace Player {
             //Sets the strenght of the particle system
             var strength = ComputeAttackStrength();
             ps.GetComponent<ParticleStrenght>().SetStrength(strength);
-            ps.GetComponent<SphereCollider>().radius = 10; //TODO
+            //ps.GetComponent<SphereCollider>().radius = 10; //TODO
             ps.GetComponent<Projectile>().attackEnemy = ComputeAttackEnemy(strength);
         }
 

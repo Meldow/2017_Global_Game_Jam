@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player {
@@ -11,57 +10,46 @@ namespace Player {
     [RequireComponent(typeof(SphereCollider))]
     public class ParticleStrenght : MonoBehaviour {
         [SerializeField]
-        private List<ParticleSystem> cloudLst;
+        private ParticleSystem ringParticle;
 
         public void SetStrength(AttackStrength attackStrength) {
+            var size = ringParticle.main;
             switch (attackStrength) {
                 case AttackStrength.Null:
-                    foreach (var cloud in cloudLst) {
-                        var dmpn = cloud.limitVelocityOverLifetime;
-                        dmpn.dampen = 0.5f;
-                    }
+                    size.startSize = 0;
                     break;
                 case AttackStrength.Weak:
-                    foreach (var cloud in cloudLst) {
-                        var dmpn = cloud.limitVelocityOverLifetime;
-                        dmpn.dampen = 0.2f;
-                        //StartCoroutine(ExpandCollider(2.0f));
-                    }
+                    size.startSize = 8;
+                    StartCoroutine(ExpandCollider(8.5f, 0.85f));
                     break;
                 case AttackStrength.Normal:
-                    foreach (var cloud in cloudLst) {
-                        var dmpn = cloud.limitVelocityOverLifetime;
-                        dmpn.dampen = 0.1f;
-                        //StartCoroutine(ExpandCollider(4.0f));
-                    }
+                    size.startSize = 13;
+                    StartCoroutine(ExpandCollider(20.0f, 1.7f));
                     break;
                 case AttackStrength.Strong:
-                    foreach (var cloud in cloudLst) {
-                        var dmpn = cloud.limitVelocityOverLifetime;
-                        dmpn.dampen = 0.05f;
-                    }
+                    size.startSize = 18;
+                    StartCoroutine(ExpandCollider(25.0f, 2.2f));
                     break;
                 case AttackStrength.VeryStrong:
-                    foreach (var cloud in cloudLst) {
-                        var dmpn = cloud.limitVelocityOverLifetime;
-                        dmpn.dampen = 0.025f;
-                    }
+                    size.startSize = 22;
+                    StartCoroutine(ExpandCollider(30.0f, 2.6f));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("attackStrength", attackStrength, null);
             }
         }
 
-        IEnumerator ExpandCollider(float targetRadius) {
+        IEnumerator ExpandCollider(float targetRadius, float speed) {
             var collider = GetComponent<SphereCollider>();
             var currentRadius = 0;
             var t = 0.0f;
+            Debug.Log("CORROUTINE :: TARGET :: " + targetRadius);
             while (collider.radius <= targetRadius) {
-                collider.radius = Mathf.Lerp(0, targetRadius, t);
-                t += Time.deltaTime;
-
+                //Debug.Log(Mathf.Lerp(0, targetRadius, t));
+                collider.radius += Time.deltaTime * speed;
+                //t += Time.deltaTime;
+                yield return null;
             }
-            yield return null;
         }
     }
 }
