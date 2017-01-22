@@ -27,7 +27,7 @@ namespace Player {
     [RequireComponent(typeof(SpriteRenderer))]
     public class Attack : MonoBehaviour {
         private SpriteRenderer spriteRenderer;
-		private int coinCollector = 0;
+        private int coinCollector = 0;
         //Weapons
         public WeaponType RedWeaponType = new WeaponType() { AttackType = AttackType.Red };
         public WeaponType BlueWeaponType = new WeaponType() { AttackType = AttackType.Blue };
@@ -43,9 +43,10 @@ namespace Player {
             set {
                 selectedWeaponType = value;
                 spriteRenderer.sprite = selectedWeaponType.sprite;
-                selectedWeaponType.ChargeBarImage.fillAmount = 0;
+                //selectedWeaponType.ChargeBarImage.fillAmount = 0;
             }
         }
+
 
         //Input
         [SerializeField]
@@ -71,38 +72,57 @@ namespace Player {
             switch (gravityInfo) {
                 case GravityInfo.Portrait:
                     SelectedWeaponType = YellowWeaponType;
+                    RedWeaponType.ChargeBarImage.fillAmount = 0;
+                    BlueWeaponType.ChargeBarImage.fillAmount = 0;
+                    GreenWeaponType.ChargeBarImage.fillAmount = 0;
                     break;
                 case GravityInfo.PortraitUpsideDown:
                     SelectedWeaponType = GreenWeaponType;
+                    RedWeaponType.ChargeBarImage.fillAmount = 0;
+                    BlueWeaponType.ChargeBarImage.fillAmount = 0;
+                    YellowWeaponType.ChargeBarImage.fillAmount = 0;
                     break;
                 case GravityInfo.LandscapeLeft:
                     SelectedWeaponType = RedWeaponType;
+                    BlueWeaponType.ChargeBarImage.fillAmount = 0;
+                    GreenWeaponType.ChargeBarImage.fillAmount = 0;
+                    YellowWeaponType.ChargeBarImage.fillAmount = 0;
                     break;
                 case GravityInfo.LandscapeRight:
                     SelectedWeaponType = BlueWeaponType;
+                    RedWeaponType.ChargeBarImage.fillAmount = 0;
+                    GreenWeaponType.ChargeBarImage.fillAmount = 0;
+                    YellowWeaponType.ChargeBarImage.fillAmount = 0;
                     break;
-				case GravityInfo.FaceUp:
-					collectCoins ();
+                case GravityInfo.FaceUp:
+                    collectCoins();
                     break;
                 case GravityInfo.FaceDown:
-					collectCoins ();
+                    collectCoins();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("gravityInfo", gravityInfo, null);
             }
         }
 
-		private void collectCoins(){
-			GameObject[] coinList = GameObject.FindGameObjectsWithTag ("Coin");
-			foreach (GameObject obj in coinList){
-				coinCollector++;
-				Destroy (obj);
-			}
-		}
+        private void collectCoins() {
+            GameObject[] coinList = GameObject.FindGameObjectsWithTag("Coin");
+            foreach (GameObject obj in coinList) {
+                coinCollector++;
+                Destroy(obj);
+            }
+        }
 
         private void Fire() {
             isCharging = false;
-            selectedWeaponType.ChargeBarImage.fillAmount = 0;
+            //Resets all fill amount values
+            //selectedWeaponType.ChargeBarImage.fillAmount = 0;
+            RedWeaponType.ChargeBarImage.fillAmount = 0;
+            BlueWeaponType.ChargeBarImage.fillAmount = 0;
+            GreenWeaponType.ChargeBarImage.fillAmount = 0;
+            YellowWeaponType.ChargeBarImage.fillAmount = 0;
+
+
             //Instantiates the particle system
             var ps = Instantiate(selectedWeaponType.ParticleSystem);
             //Sets the strenght of the particle system
@@ -131,9 +151,9 @@ namespace Player {
             while (isCharging) {
                 selectedWeaponType.ChargeBarImage.fillAmount = Mathf.Lerp(0, 1, currentCharge);
                 currentCharge += chargeSpeed * Time.deltaTime;
-                if (currentCharge >= 1) {
-                    Fire();
-                }
+                //if (currentCharge >= 1) {
+                //    Fire();
+                //}
                 yield return null;
             }
         }
