@@ -75,12 +75,17 @@ namespace Player {
         //private Image chargeBar;
         private float currentCharge;
 
+		public GameObject audioManager;
+		private AudioManager audioM;
+
         void Awake() {
             spriteRenderer = GetComponent<SpriteRenderer>();
             SelectedWeaponType = RedWeaponType;
             InputManager.Instance.RegisterKeyPressedCallback(ProcessPressInput);
             InputManager.Instance.RegisterKeyReleasedCallback(ProcessReleaseInput);
             currentCharge = 0.0f;
+			audioM = audioManager.GetComponent<AudioManager> ();
+
         }
 
         void OnEnable() {
@@ -126,6 +131,9 @@ namespace Player {
 
         private void collectCoins() {
             GameObject[] coinList = GameObject.FindGameObjectsWithTag("Coin");
+			if (coinList.Length > 0) {
+				audioM.PlayCoinEffect ();
+			}
             foreach (GameObject obj in coinList) {
                 CoinCollector++;
                 Destroy(obj);

@@ -42,6 +42,9 @@ namespace Enemy {
         [SerializeField]
         private float attackRange;
 
+		private GameObject audioManager;
+		private AudioManager audioM;
+
         //Health
         private int hp;
         public int HP {
@@ -67,6 +70,8 @@ namespace Enemy {
             //scoreText = ui.GetComponentInChildren<Text>();
             scoreText = GameObject.FindWithTag("Score").GetComponent<Text>();
             attackScript = goal.GetComponent<Attack>();
+			audioManager = GameObject.FindGameObjectWithTag ("Audio");
+			audioM = audioManager.GetComponent<AudioManager> ();
         }
 
         void Start() {
@@ -108,6 +113,7 @@ namespace Enemy {
 
         private void Death() {
             foreach (var anm in animLst) { anm.SetTrigger(deadkHash); }
+			audioM.PlayDeathEffectEnemy ();
             agent.Stop();
             Instantiate(coin, gameObject.transform.position, Quaternion.Euler(90, 0, 0));
             var part = Instantiate(onDeathParticle, transform);
