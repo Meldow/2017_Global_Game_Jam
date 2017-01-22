@@ -12,6 +12,7 @@ namespace Player {
 		public void damagePlayer(){
 			health--;
 			if (health == 0) {//die
+			    KeepingItems.Instance.FinalScore = Attack.Instance.getPlayerScore();
 				SceneManager.LoadScene ("Game Over");
 			} else if (health <= 5) {
 				Attack player = gameObject.GetComponent<Attack> ();
